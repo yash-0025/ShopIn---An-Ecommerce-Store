@@ -8,6 +8,31 @@ const orderSchema = new Schema({
         required:true,
     },
     item: {
-        type:
+        type:[Schema.Types.Mixed],
+        required: true,
+    },
+    address: {
+        type: [Schema.Types.Mixed],
+        required: true,
+    },
+    status: {
+        type: String,
+        enum: ['Pending', 'Dispatched', 'Out for Delivery', 'Cancelled'],
+        default: 'Pending',
+    },
+    paymentMode: {
+        type: String,
+        enum: ['COD', 'UPI', 'CARD'],
+        required: true,
+    },
+    total: {
+        type: Number,
+        required: true,
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
     }
-})
+}, {versionKey:false})
+
+module.exports = mongoose.mode("Order", orderSchema)
