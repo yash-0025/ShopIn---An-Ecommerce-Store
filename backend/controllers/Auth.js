@@ -1,25 +1,26 @@
 const User = require("../models/User")
 const bcrypt = require('bcryptjs')
-const {sendMail} = require("../utils/Email")
-const {generateOtp} = require("../utils/OtpGenerator")
+const { sendMail } = require("../utils/Email")
+const { generateOtp } = require("../utils/OtpGenerator")
 const Otp = require('../utils/OtpGenerator')
-const {protectUser} = require('../utils/ProtectUser')
-const {generateToken } = require('../utils/OtpGenerator')
+const { protectUser } = require('../utils/ProtectUser')
+const { generateToken } = require('../utils/TokenGenerate')
 const PasswordReset = require('../models/PasswordReset')
+const { token } = require("morgan")
 
 
-exports.signup = async(req,res) => {
+exports.signup = async (req, res) => {
     try {
         const existingUser = await User.findOne({
             email: req.body.email
         })
 
-        if(existingUser) {
+        if (existingUser) {
             return res.status(400).json({
                 message: "User already exists!!"
             })
         }
-        const hashedPassword = await bcrypt.hash(req.body.password,10);
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
         req.body.password = hashedPassword
 
         const createUser = new User(req.body)
@@ -32,23 +33,25 @@ exports.signup = async(req,res) => {
             sameSite: process.env.PRODUCTION === 'true' ? "None" : 'Lax',
             maxAge: new Date(Date.now() + (parseInt(process.env.COOKIE_EXPIRATION * 24 * 60 * 60 * 1000))),
             httpOnly: true,
-            secure: process.env.PRODUCTION==='true' ? true : false
+            secure: process.env.PRODUCTION === 'true' ? true : false
         })
-        res.status(201).json(protectUser(createUser))
+        res.status(201).json(protectUser(createUser),)
     } catch (error) {
         console.log(error)
         res.status(500).json({
-            message:"ERROR SIGNING UP, PLEASE TRY AGAIN !!"
+            message: "ERROR SIGNING UP, PLEASE TRY AGAIN !!"
         })
     }
+
+
 }
 
-exports.login = async(req, res) => {
-    try{
-        const existingUser = await User.findONe({
+exports.login = async (req, res) => {
+    try {
+        const existingUser = await User.findOne({
             email: req.body.email
         })
-        if(existingUser && (
+        if (existingUser && (
             await bcrypt.compare(req.body.password, existingUser.password)
         )) {
             const secureInfo = protectUser(existingUser)
@@ -56,15 +59,18 @@ exports.login = async(req, res) => {
             const token = generateToken(secureInfo)
 
             res.cookie("token", token, {
-                sameSite: process.env.PRODUCTION === 'true' ? "None" :"Lax",
-                maxAge:new Date(Date.now() +(parseInt(process.env.COOKIE_EXPIRATION * 24 *60 * 60 *1000))),
-                httpOnly:true,
-                secure:process.env.PRODUCTION == 'true'? true : false
+                sameSite: process.env.PRODUCTION === 'true' ? "None" : "Lax",
+                maxAge: new Date(Date.now() + (parseInt(process.env.COOKIE_EXPIRATION * 24 * 60 * 60 * 1000))),
+                httpOnly: true,
+                secure: process.env.PRODUCTION == 'true' ? true : false
             })
+           return res.status(200).json(protectUser(existingUser))
         }
-
-        res.status(201).json(protectUser(existingUser))
-    } catch(error) {
+       res.clearCookie('token')
+       return res.status(400).json({
+        message: "Invalid Credentials"
+       })
+    } catch (error) {
         console.log(error)
         res.status(500).json({
             message: "ERROR WHILE LOGGIN IN, PLEASE TRY AGAIN !!"
