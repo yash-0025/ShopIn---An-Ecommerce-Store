@@ -6,7 +6,7 @@ const Otp = require('../utils/OtpGenerator')
 const { protectUser } = require('../utils/ProtectUser')
 const { generateToken } = require('../utils/TokenGenerate')
 const PasswordReset = require('../models/PasswordReset')
-const { token } = require("morgan")
+
 
 
 exports.signup = async (req, res) => {
