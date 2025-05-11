@@ -3,10 +3,13 @@ const dotenv = require("dotenv")
 dotenv.config()
 const { connectDB } = require("./database/db")
 const cookieParser = require("cookie-parser")
-const authRoutes = require("./routes/AuthRoutes")
 const cors = require('cors')
 const morgan = require("morgan")
 
+//Routes imports
+
+const authRoutes = require("./routes/AuthRoutes")
+const userRoutes = require("./routes/UserRoutes")
 
 
 
@@ -25,6 +28,7 @@ connectDB()
 
 // ROUTES SECTION
 app.use("/auth",authRoutes);
+app.use("/users",userRoutes)
 
 app.get("/",(req,res) => {
     res.status(200).json({
