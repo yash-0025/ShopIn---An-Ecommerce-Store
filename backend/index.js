@@ -10,6 +10,7 @@ const morgan = require("morgan")
 
 const authRoutes = require("./routes/AuthRoutes")
 const userRoutes = require("./routes/UserRoutes")
+const productRoutes = require("./routes/ProductRoutes")
 
 
 
@@ -17,6 +18,7 @@ const userRoutes = require("./routes/UserRoutes")
 
 const app = express()
 app.use(express.json())
+app.use(cookieParser())
 // app.use(cors())
 
 // SET to tiny for production to reduce logs so it will  use less disk space with logs also we can use dev for debuggin while development
@@ -29,6 +31,7 @@ connectDB()
 // ROUTES SECTION
 app.use("/auth",authRoutes);
 app.use("/users",userRoutes)
+app.use("/products",productRoutes)
 
 app.get("/",(req,res) => {
     res.status(200).json({
