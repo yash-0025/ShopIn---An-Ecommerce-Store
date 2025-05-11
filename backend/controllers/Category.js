@@ -1,6 +1,6 @@
 const Category = require("../models/Category")
 
-exports.getAll=async(req,res)=> {
+exports.getAllCategory=async(req,res)=> {
     try{
         const result = await Category.find({})
         res.status(200).json(result)

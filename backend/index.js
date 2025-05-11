@@ -12,7 +12,7 @@ const authRoutes = require("./routes/AuthRoutes")
 const userRoutes = require("./routes/UserRoutes")
 const productRoutes = require("./routes/ProductRoutes")
 const brandRoutes = require("./routes/BrandRoutes")
-
+const categoryRoutes = require("./routes/CategoryRoutes")
 
 
 
@@ -33,6 +33,7 @@ app.use("/auth",authRoutes);
 app.use("/users",userRoutes)
 app.use("/products",productRoutes)
 app.use("/brands",brandRoutes)
+app.use("/categories",categoryRoutes)
 
 app.get("/",(req,res) => {
     res.status(200).json({
