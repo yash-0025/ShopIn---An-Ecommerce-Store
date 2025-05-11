@@ -32,13 +32,43 @@ exports.signup = async(req,res) => {
             sameSite: process.env.PRODUCTION === 'true' ? "None" : 'Lax',
             maxAge: new Date(Date.now() + (parseInt(process.env.COOKIE_EXPIRATION * 24 * 60 * 60 * 1000))),
             httpOnly: true,
-            secure: process.env.production==='true' ? true : false
+            secure: process.env.PRODUCTION==='true' ? true : false
         })
         res.status(201).json(protectUser(createUser))
     } catch (error) {
         console.log(error)
         res.status(500).json({
-            message:"ERROR SIGNING UP, PLEASE TRY AGAIN LATER"
+            message:"ERROR SIGNING UP, PLEASE TRY AGAIN !!"
         })
     }
 }
+
+exports.login = async(req, res) => {
+    try{
+        const existingUser = await User.findONe({
+            email: req.body.email
+        })
+        if(existingUser && (
+            await bcrypt.compare(req.body.password, existingUser.password)
+        )) {
+            const secureInfo = protectUser(existingUser)
+
+            const token = generateToken(secureInfo)
+
+            res.cookie("token", token, {
+                sameSite: process.env.PRODUCTION === 'true' ? "None" :"Lax",
+                maxAge:new Date(Date.now() +(parseInt(process.env.COOKIE_EXPIRATION * 24 *60 * 60 *1000))),
+                httpOnly:true,
+                secure:process.env.PRODUCTION == 'true'? true : false
+            })
+        }
+
+        res.status(201).json(protectUser(existingUser))
+    } catch(error) {
+        console.log(error)
+        res.status(500).json({
+            message: "ERROR WHILE LOGGIN IN, PLEASE TRY AGAIN !!"
+        })
+    }
+}
+
