@@ -9,7 +9,7 @@ router.post("/verify-otp",authController.verifyOtp)
 router.post("/resend-otp",authController.resendOtp)
 router.post("/forgot-password", authController.forgotPassword)
 router.post("/reset-password",authController.resetPassword)
-router.get("/check-auth", verifyToken, authController.checAuth)
+router.get("/check-auth", verifyToken, authController.checkAuth)
 router.get("/logout",authController.logout)
 
 module.exports = router

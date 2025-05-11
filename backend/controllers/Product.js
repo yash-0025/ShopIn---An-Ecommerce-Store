@@ -75,11 +75,11 @@ exports.updateProductById = async(req,res) => {
         const updated = await Product.findByIdAndUpdate(id, req.body, {new:true})
         res.status(200).json(updated)
     } catch(error) {
-        console.log(error){
+        console.log(error)
             res.status(500).json({
                 message: "Error updating the product"
             })
-        }
+        
     }
 }
 

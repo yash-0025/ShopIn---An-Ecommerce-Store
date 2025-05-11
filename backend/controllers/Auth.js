@@ -255,12 +255,13 @@ exports.logout = async (req, res) => {
     }
 }
 
-exports.checAuth = async(req,res) => {
+exports.checkAuth = async(req,res,next) => {
     try{
         if(req.user) {
             const user = await User.findById(req.user._id)
             return res.status(200).json(protectUser(user))
         }
+        next()
         res.sendStatus(401)
     } catch(error){
         console.log(error)

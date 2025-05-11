@@ -11,7 +11,7 @@ const morgan = require("morgan")
 const authRoutes = require("./routes/AuthRoutes")
 const userRoutes = require("./routes/UserRoutes")
 const productRoutes = require("./routes/ProductRoutes")
-
+const brandRoutes = require("./routes/BrandRoutes")
 
 
 
@@ -32,6 +32,7 @@ connectDB()
 app.use("/auth",authRoutes);
 app.use("/users",userRoutes)
 app.use("/products",productRoutes)
+app.use("/brands",brandRoutes)
 
 app.get("/",(req,res) => {
     res.status(200).json({

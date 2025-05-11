@@ -3,7 +3,7 @@ const {Schema} = mongoose
 
 const productSchema = new Schema({
     title: {
-        title: String,
+        type: String,
         required: true,
     },
     description: {
@@ -12,7 +12,7 @@ const productSchema = new Schema({
     },
     price: {
         type: Number,
-        required: true,
+        required:true,
     },
     discountPercentage: {
         type: Number,
