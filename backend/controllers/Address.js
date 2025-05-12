@@ -17,10 +17,10 @@ exports.createAddress = async(req,res) => {
 exports.getAddressByUserId = async(req,res) => {
     try{
         const {id} = req.params
-        const results = await.find({
+        const results = await Address.find({
             user:id
         })
-
+        res.status(200).json(results)
     } catch(error){
         console.log(error)
         res.status(500).json({
