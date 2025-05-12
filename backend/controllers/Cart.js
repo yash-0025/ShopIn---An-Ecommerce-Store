@@ -63,3 +63,16 @@ exports.deleteCartById = async(req,res) => {
         })
     }
 }
+
+exports.deleteCartByUserId = async(req,res) => {
+    try{
+        const {id} = req.params
+        await Cart.deleteMany({user:id})
+        res.sendStatus(204)
+    } catch(error){
+        console.log(error)
+        res.status(500).json({
+            message: "Error deleting cart with user Id"
+        })
+    }
+}

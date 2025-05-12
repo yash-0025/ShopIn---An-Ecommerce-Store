@@ -14,7 +14,7 @@ const productRoutes = require("./routes/ProductRoutes")
 const brandRoutes = require("./routes/BrandRoutes")
 const categoryRoutes = require("./routes/CategoryRoutes")
 const addressRoutes = require("./routes/AddressRoutes")
-
+const cartRoutes= require("./routes/CartRoutes")
 
 const app = express()
 app.use(express.json())
@@ -35,6 +35,7 @@ app.use("/products",productRoutes)
 app.use("/brands",brandRoutes)
 app.use("/categories",categoryRoutes)
 app.use("/address", addressRoutes)
+app.use("/cart", cartRoutes)
 
 app.get("/",(req,res) => {
     res.status(200).json({
