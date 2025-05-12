@@ -6,3 +6,5 @@ router.post("/", addressController.createAddress)
 router.get("/user/:id", addressController.getAddressByUserId)
 router.patch("/:id",addressController.updateAddressById)
 router.delete("/:id", addressController.deleteAddressById)
+
+module.exports = router
