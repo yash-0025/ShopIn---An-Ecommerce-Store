@@ -16,6 +16,9 @@ const categoryRoutes = require("./routes/CategoryRoutes")
 const addressRoutes = require("./routes/AddressRoutes")
 const cartRoutes= require("./routes/CartRoutes")
 const wishlistRoutes = require("./routes/WishlistRoutes")
+const reviewRoutes = require("./routes/ReviewRoutes")
+
+
 
 const app = express()
 app.use(express.json())
@@ -38,6 +41,7 @@ app.use("/categories",categoryRoutes)
 app.use("/address", addressRoutes)
 app.use("/cart", cartRoutes)
 app.use("/wishlist", wishlistRoutes)
+app.use("/reviews", reviewRoutes)
 
 app.get("/",(req,res) => {
     res.status(200).json({
