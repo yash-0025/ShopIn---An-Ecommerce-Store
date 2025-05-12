@@ -35,4 +35,4 @@ const orderSchema = new Schema({
     }
 }, {versionKey:false})
 
-module.exports = mongoose.mode("Order", orderSchema)
+module.exports = mongoose.model("Order", orderSchema)
